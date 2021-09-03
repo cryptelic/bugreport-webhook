@@ -1,0 +1,42 @@
+{
+  "name": "bugreport-webhook",
+  "version": "1.0.0",
+  "description": "This package handles webhook requests to server via HTTP POST",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "local": "ts-node server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryptelic/bugreport-webhook.git"
+  },
+  "keywords": [
+    "bugreport",
+    "webhooks"
+  ],
+  "author": "Cryptee Hopkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cryptelic/bugreport-webhook/issues"
+  },
+  "homepage": "https://github.com/cryptelic/bugreport-webhook#readme",
+  "dependencies": {
+    "@types/agenda": "^3.0.0",
+    "@types/express": "^4.17.1",
+    "@types/multiparty": "0.0.33",
+    "@types/node": "^12.7.4",
+    "agendash2": "^0.8.2",
+    "bluebird": "^3.5.5",
+    "cors": "^2.8.5",
+    "express": "4.17.1",
+    "express-server-logs": "^1.0.4",
+    "http": "0.0.0",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "5.6.11",
+    "multiparty": "^4.2.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2"
+  }
+}

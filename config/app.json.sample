@@ -1,0 +1,44 @@
+{
+    "commonConfig": {},
+    "local": {
+        "host": "localhost",
+        "port": 3000,
+        "protocol": "http",
+        "mailGunApiKey": "",
+        "webhookSecretKey": "",
+        "db": {
+            "port": 27017,
+            "options": {
+                "useNewUrlParser": true
+            },
+            "name": "vnete_webhooks",
+            "url": "mongodb://localhost:27017/vnete_webhooks",
+            "host": "localhost",
+            "auth": false,
+            "username": "",
+            "password": ""
+        }
+    },
+    "docker": {
+        "host": "express",
+        "port": 80,
+        "protocol": "http",
+        "mailGunApiKey": "",
+        "webhookSigningKey": "",
+        "webhookSecretKey": "",
+        "db": {
+            "port": 27017,
+            "options": {
+                "useNewUrlParser": true
+            },
+            "name": "vnete_webhooks",
+            "url": "mongodb://mongo:27017/vnete_webhooks",
+            "host": "mongo",
+            "auth": false,
+            "username": "root",
+            "password": ""
+        }
+    },
+    "staging": {},
+    "production": {}
+}

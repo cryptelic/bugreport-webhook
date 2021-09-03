@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+  mongo:
+    container_name: bugreport-mongo
+    restart: always
+    image: mongo:${MONGO_TAG}
+    volumes:
+      - /data/db:/data/db
+    #        environment:
+    #            - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+    #            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    #            - MONGO_INITDB_DATABASE=vnete_webhooks
+    expose:
+      - "27017"
+    networks:
+      - mongo-express-network
+  mongo-express:
+    container_name: bugreport-mongo-express
+    image: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      #           - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_USER}
+      #           - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    links:
+      - mongo
+    ports:
+      - "8081:8081"
+    networks:
+      - mongo-express-network
+  # mongoku:
+  #   container_name: bugreport-mongoku
+  #   image: huggingface/mongoku
+  #   restart: always
+  #   environment:
+  #     - MONGOKU_DEFAULT_HOST="${MONGOEXPRESS_LOGIN}:${MONGOEXPRESS_PASSWORD}@mongo:27017"
+  #     - MONGOKU_DATABASE_FILE="/data/db/mongoku.db"
+  #     - MONGOKU_SERVER_PORT=3100
+  #   links:
+  #     - mongo
+  #   ports:
+  #     - "8082:3100"
+  #   networks:
+  #     - mongo-express-network
+  hook:
+    container_name: bugreport-webhook
+    build: .
+    restart: always
+    volumes:
+      - /data/db/uploaded:/tmp
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      #          - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_USER}
+      #          - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    links:
+      - mongo
+    expose:
+      - "80"
+    networks:
+      - mongo-express-network
+networks:
+  mongo-express-network:
+    external:
+      name: www-network
